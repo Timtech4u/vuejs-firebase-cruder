@@ -2,28 +2,37 @@
   "name": "titan-console",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint src tests *.js --max-warnings 0",
+    "test": "vitest run"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
-    "firebase": "^6.3.1",
-    "vue": "^2.6.10",
-    "vue-router": "^3.0.3"
+    "vue": "3.5.44",
+    "firebase": "13.1.0",
+    "vue-router": "5.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-service": "^3.8.0",
-    "vue-template-compiler": "^2.6.10"
+    "@eslint/js": "10.0.1",
+    "@vitejs/plugin-vue": "6.0.10",
+    "@vue/test-utils": "2.5.1",
+    "eslint": "10.13.0",
+    "eslint-plugin-vue": "10.11.1",
+    "globals": "17.13.0",
+    "jsdom": "30.1.3",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0",
+    "npm": ">=10"
+  },
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.14.6"
     }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+  }
 }

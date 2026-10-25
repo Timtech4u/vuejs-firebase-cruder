@@ -1,16 +1,17 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from '@/components/Home';
-import ViewEmployee from '@/components/ViewEmployee';
-import NewEmployee from '@/components/NewEmployee';
-import EditEmployee from '@/components/EditEmployee';
-import Login from '@/components/Login';
-import Register from '@/components/Register';
-import firebase from 'firebase';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import Home from '@/components/Home.vue';
+import ViewEmployee from '@/components/ViewEmployee.vue';
+import NewEmployee from '@/components/NewEmployee.vue';
+import EditEmployee from '@/components/EditEmployee.vue';
+import Login from '@/components/Login.vue';
+import Register from '@/components/Register.vue';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
-Vue.use(Router);
 
-let router = new Router({
+
+let router = createRouter({
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',

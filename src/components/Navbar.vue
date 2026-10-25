@@ -3,7 +3,7 @@
       <div class="nav-wrapper green">
         <div class="container">
           <router-link to="/" class="brand-logo">Manager</router-link>    
-          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <a href="#" @click.prevent="menuOpen = !menuOpen" class="button-collapse"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
             <li v-if="isLoggedIn"><span class="email black-text">{{currentUser}}</span></li>
             <li v-if="isLoggedIn"><router-link to="/">Dashboard</router-link></li>
@@ -12,7 +12,8 @@
              <li v-if="isLoggedIn"><button v-on:click="logout" class="btn black">Logout</button></li>
              
           </ul>
-          <ul class="side-nav" id="mobile-demo">
+          <ul @click="menuOpen = false" class="side-nav" :style="menuOpen ? { transform: 'translateX(0)' } : {}" id="mobile-demo">
+            <li><button type="button" class="btn-flat" aria-label="Close menu" @click="menuOpen = false">Close</button></li>
             <li v-if="isLoggedIn"><router-link to="/">Dashboard</router-link></li>
             <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
             <li v-if="!isLoggedIn"><router-link to="/register">Register</router-link></li>
@@ -26,28 +27,32 @@
   </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 export default {
-  name: 'navbar',
+  name: 'EmployeeNavbar',
   data() {
     return {
       isLoggedIn: false,
-      currentUser: false
+      currentUser: false,
+      menuOpen: false,
+      unsubscribe: null
     };
   },
   created() {
-    if (firebase.auth().currentUser) {
-      this.isLoggedIn = true;
-      this.currentUser = firebase.auth().currentUser.email;
-    }
+    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      this.isLoggedIn = Boolean(user);
+      this.currentUser = user ? user.email : '';
+    });
   },
+  beforeUnmount() { this.unsubscribe?.(); },
   methods: {
     logout: function() {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.$router.go({ path: this.$router.path });
+          this.$router.replace('/login');
         });
     }
   }
