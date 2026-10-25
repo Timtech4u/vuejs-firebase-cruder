@@ -66,3 +66,29 @@ it('opens and closes mobile navigation without the removed jQuery plugin',async(
  expect(wrapper.get('#mobile-demo').attributes('style')).not.toContain('translateX(0)');
  wrapper.unmount();
 });
+
+it.each([
+  [Login, ['email', 'password']],
+  [Register, ['email', 'password']],
+  [NewEmployee, ['employee_id', 'name', 'dept', 'position']]
+])('keeps form labels clear of focused, entered and prefilled values', async (Component, fields) => {
+  const wrapper = mount(Component, { global: global() });
+  const inputs = wrapper.findAll('input');
+  const labels = wrapper.findAll('label');
+  for (const [index, field] of fields.entries()) {
+    expect(labels[index].classes()).not.toContain('active');
+    await inputs[index].trigger('focus');
+    expect(labels[index].classes()).toContain('active');
+    await inputs[index].trigger('blur');
+    expect(labels[index].classes()).not.toContain('active');
+    await inputs[index].setValue('Entered value');
+    expect(labels[index].classes()).toContain('active');
+    await inputs[index].trigger('blur');
+    expect(labels[index].classes()).toContain('active');
+    await inputs[index].setValue('');
+    expect(labels[index].classes()).not.toContain('active');
+    await wrapper.setData({ [field]: 'Prefilled value' });
+    expect(labels[index].classes()).toContain('active');
+  }
+  wrapper.unmount();
+});

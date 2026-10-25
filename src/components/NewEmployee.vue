@@ -5,26 +5,26 @@
     <form @submit.prevent="saveEmployee" class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="employee_id" required>
-          <label>Employee ID#</label>
+          <input type="text" v-model="employee_id" @focus="focusedField = 'employee_id'" @blur="focusedField = null" required>
+          <label :class="{ active: focusedField === 'employee_id' || Boolean(employee_id) }">Employee ID#</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="name" required>
-          <label>Name</label>
+          <input type="text" v-model="name" @focus="focusedField = 'name'" @blur="focusedField = null" required>
+          <label :class="{ active: focusedField === 'name' || Boolean(name) }">Name</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="dept" required>
-          <label>Department</label>
+          <input type="text" v-model="dept" @focus="focusedField = 'dept'" @blur="focusedField = null" required>
+          <label :class="{ active: focusedField === 'dept' || Boolean(dept) }">Department</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="position" required>
-          <label>Position</label>
+          <input type="text" v-model="position" @focus="focusedField = 'position'" @blur="focusedField = null" required>
+          <label :class="{ active: focusedField === 'position' || Boolean(position) }">Position</label>
         </div>
       </div>
       <button type="submit" class="btn">Submit</button>
@@ -40,6 +40,7 @@
       name: 'new-employee',
       data () {
         return {
+          focusedField: null,
           employee_id: null,
           name: null,
           dept: null,

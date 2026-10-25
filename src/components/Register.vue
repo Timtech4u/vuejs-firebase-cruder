@@ -8,13 +8,13 @@
           <form @submit.prevent="register">
             <div class="input-field">
               <i class="material-icons prefix">email</i>
-              <input type="email" id="email" v-model="email">
-              <label for="email">Email Address</label>
+              <input type="email" id="email" v-model="email" @focus="focusedField = 'email'" @blur="focusedField = null">
+              <label :class="{ active: focusedField === 'email' || Boolean(email) }" for="email">Email Address</label>
             </div>
             <div class="input-field">
               <i class="material-icons prefix">lock</i>
-              <input type="password" id="password" v-model="password">
-              <label for="password">Password</label>
+              <input type="password" id="password" v-model="password" @focus="focusedField = 'password'" @blur="focusedField = null">
+              <label :class="{ active: focusedField === 'password' || Boolean(password) }" for="password">Password</label>
             </div>
             <button type="submit" class="btn btn-large btn-extended grey lighten-4 black-text">Register</button>
           </form>
@@ -33,6 +33,7 @@ export default {
   name: 'EmployeeRegister',
   data: function() {
     return {
+          focusedField: null,
       email: '',
       password: ''
     };
