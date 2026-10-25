@@ -5,7 +5,7 @@
       <div class="col s12 m8 offset-m2">
         <div class="login card-panel green white-text center">
           <h3>Login</h3>
-          <form action="index.html">
+          <form @submit.prevent="login">
             <div class="input-field">
               <i class="material-icons prefix">email</i>
               <input type="email" id="email" v-model="email">
@@ -16,7 +16,7 @@
               <input type="password" id="password" v-model="password">
               <label class="white-text" for="password">Password</label>
             </div>
-            <button v-on:click="login" class="btn btn-large btn-extended grey lighten-4 black-text">Login</button>
+            <button type="submit" class="btn btn-large btn-extended grey lighten-4 black-text">Login</button>
           </form>
         </div>
       </div>
@@ -26,9 +26,10 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 export default {
-  name: 'login',
+  name: 'EmployeeLogin',
   data: function() {
     return {
       email: '',
@@ -36,20 +37,20 @@ export default {
     };
   },
   methods: {
-    login: function(e) {
+    login: function() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
           user => {
-            alert(`You are logged in as ${user.email}`);
-            this.$router.go({ path: this.$router.path });
+            alert(`You are logged in as ${user.user.email}`);
+            this.$router.replace('/');
           },
           err => {
             alert(err.message);
           }
         );
-      e.preventDefault();
+
     }
   }
 };

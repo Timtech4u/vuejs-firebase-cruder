@@ -19,7 +19,7 @@
 <script>
 import db from './firebaseInit';
 export default {
-  name: 'home',
+  name: 'EmployeeHome',
   data() {
     return {
       employees: [],
